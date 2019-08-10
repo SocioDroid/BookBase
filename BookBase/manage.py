@@ -3,7 +3,7 @@
 import os
 import sys
 #Test
-
+# edited by siddharth
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'BookBase.settings')
     try:

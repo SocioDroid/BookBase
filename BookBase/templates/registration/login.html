@@ -1,0 +1,24 @@
+{% load static %}
+{% block login %}
+<head>
+<link rel="stylesheet" href="{% static 'user/css/login.css' %}"></head>
+<body>
+<div class="login">
+<h1>Login</h1>
+<form method="post">
+    <div class = "labelss">
+  {% csrf_token %}
+  {{ form.as_p }}
+        </div>
+          <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
+</form>
+</div>
+    {% endblock %}
+</body>
+
+
+
+
+
+
+
