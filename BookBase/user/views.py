@@ -27,6 +27,7 @@ def register(request):
             profile.user = user
             profile.save()
             registered = True
+            return HttpResponseRedirect('/user/login/')
         else:
             print(user_form.errors,profile_form.errors)
     else:
@@ -37,3 +38,5 @@ def register(request):
                                             'profile_form':profile_form,
                                             'registered':registered
                                         })
+def sell(request):
+    return render(request,'sell.html',{})
