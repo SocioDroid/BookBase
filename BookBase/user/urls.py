@@ -7,5 +7,5 @@ from . import views
 urlpatterns = [
     path('login/', auth_views.LoginView, name = 'login'),
     url('signup/', views.register, name ='signup'),
-    url('sell/', views.sell, name='sell')
+    url('sell/$', views.sell, name='sell')
 ]

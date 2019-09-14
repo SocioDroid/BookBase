@@ -4,14 +4,14 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Untitled Form</title>
+        <title>BOOKBANK</title>
         <link rel="stylesheet" type="text/css" href="{% static 'form/view.css' %}" media="all">
         <script type="text/javascript" src="{% static 'form/view.js' %}"></script>
     </head>
     <body id="main_body" >
         <div id="form_container">
             <h1>SELL BOOKS</h1>
-            <form id="form_81652" class="appnitro"  method="post" action="">
+            <form  class="appnitro"  method="POST" action="{% url 'sell' %}">
                 {% csrf_token %}
                 <div class="form_description">
                     <h2>SELL BOOKS</h2>
@@ -21,32 +21,31 @@
                     <li id="li_1" >
                         <label class="description" for="element_1">Title </label>
                         <div>
-                            <input id="element_1" name="element_1" class="element text medium" type="text" maxlength="255" value=""/>
+                            <input id="element_1" name="title" class="element text medium" type="text" maxlength="80" value=""/>
                         </div>
                         <p class="guidelines" id="guide_1"><small>Enter book title</small></p>
                     </li>
                     <li id="li_2" >
                         <label class="description" for="element_2">Author </label>
                         <div>
-                            <input id="element_2" name="element_2" class="element text medium" type="text" maxlength="255" value=""/>
+                            <input id="element_2" name="author" class="element text medium" type="text" maxlength="50" value=""/>
                         </div>
                         <p class="guidelines" id="guide_2"><small>Enter Author Name</small></p>
                     </li>
                     <li id="li_3" >
                         <label class="description" for="element_3">Description </label>
                         <div>
-                            <textarea id="element_3" name="element_3" class="element textarea medium"></textarea>
+                            <textarea id="element_3" name="desc" class="element textarea medium"></textarea>
                         </div>
                         <p class="guidelines" id="guide_3"><small>Enter description for the book</small></p>
                     </li>
                     <li id="li_4" >
                         <label class="description" for="element_4">Price </label>
                         <div>
-                            <input id="element_4" name="element_4" class="element text medium" type="text" maxlength="255" value=""/>
+                            <input id="element_4" name="price" class="element text medium" type="text" maxlength="10" value=""/>
                         </div>
                     </li>
                     <li class="buttons">
-                        <input type="hidden" name="form_id" value="81652" />
                         <input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
                     </li>
                 </ul>

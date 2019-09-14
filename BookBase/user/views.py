@@ -1,5 +1,7 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from .forms import UserForm, UserProfileInfoForm
+from .models import Sell
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -39,4 +41,22 @@ def register(request):
                                             'registered':registered
                                         })
 def sell(request):
-    return render(request,'sell.html',{})
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        author =request.POST.get('author')
+        description =request.POST.get('desc')
+        price =request.POST.get('price')
+        sellModel = Sell()
+        sellModel.title = title
+        sellModel.author = author
+        sellModel.description = description
+        sellModel.price = price
+        sellModel.user_id = request.user
+
+        sellModel.save()
+        context = {'title':title,'author':author,'desc':description,'price':price}
+        print(str(title)+str(author)+str(description)+str(price))
+
+        return render(request,'sell.html', context)
+    else:
+        return render(request, 'sell.html', {})
