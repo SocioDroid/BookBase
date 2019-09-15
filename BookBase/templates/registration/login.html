@@ -1,6 +1,10 @@
 {% load static %}
 {% block login %}
 <head>
+    <style>
+        a {
+    text-decoration: none !important;
+<we></we>    </style>
 <link rel="stylesheet" href="{% static 'user/css/login.css' %}"></head>
 <body>
 <div class="login">
@@ -10,7 +14,9 @@
   {% csrf_token %}
   {{ form.as_p }}
         </div>
-          <button type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
+          <button type="submit" class="btn btn-primary btn-block btn-large">Login</button><br>
+
+         <a href = "{% url 'signup' %}" ><button class="btn btn-primary btn-block btn-large">Register</button> </a>
 </form>
 </div>
     {% endblock %}

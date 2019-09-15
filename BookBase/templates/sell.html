@@ -6,7 +6,23 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>BOOKBANK</title>
         <link rel="stylesheet" type="text/css" href="{% static 'form/view.css' %}" media="all">
+        <script type="text/javascript" src="{% static 'form/jquery.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'form/view.js' %}"></script>
+        <script>
+    function sendTitle(){
+    var title = document.getElementById('element_1').value
+    $.ajax({
+        url: 'sell/',
+        data : {
+            'title': title,
+        },
+        success: function (data) {
+            document.getElementById('retVal').innerHTML = data["retVal"];
+        }
+    });
+}
+
+</script>
     </head>
     <body id="main_body" >
         <div id="form_container">
@@ -43,6 +59,8 @@
                         <label class="description" for="element_4">Price </label>
                         <div>
                             <input id="element_4" name="price" class="element text medium" type="text" maxlength="10" value=""/>
+                             <input id="checkPrice" class="button_text" type="button" value="Check Price" onclick="sendTitle()"/>
+                                  <p id="retVal"></p>
                         </div>
                     </li>
                     <li class="buttons">
@@ -53,5 +71,6 @@
         </div>
         <img id="bottom" src="{% static 'form/bottom.png' %} " alt="">
     </body>
+
 </html>
 

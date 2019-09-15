@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+import django
+from django.http import JsonResponse
 from django.shortcuts import render
 from .forms import UserForm, UserProfileInfoForm
 from .models import Sell
@@ -41,6 +43,15 @@ def register(request):
                                             'registered':registered
                                         })
 def sell(request):
+    if request.method == 'GET':
+        title = request.GET.get('title')
+        retVal = ""
+        if title:
+            retVal =  checkPrice(title)
+            print(retVal)
+            return JsonResponse({'retVal': retVal })
+        return render(request, 'sell.html', )
+
     if request.method == 'POST':
         title = request.POST.get('title')
         author =request.POST.get('author')
@@ -60,3 +71,12 @@ def sell(request):
         return render(request,'sell.html', context)
     else:
         return render(request, 'sell.html', {})
+
+def checkPrice(titleRec):
+
+
+    #Fetch the price for input title
+    for e in Sell.objects.filter(title__icontains=titleRec):
+        if e:
+            print(e.price)
+    return ("HelloWorldJKLd")
