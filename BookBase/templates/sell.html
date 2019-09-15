@@ -17,7 +17,11 @@
             'title': title,
         },
         success: function (data) {
-            document.getElementById('retVal').innerHTML = data["retVal"];
+            document.getElementById('avg').innerHTML = data["avg"];
+            document.getElementById('min').innerHTML = data["min"];
+            document.getElementById('max').innerHTML = data["max"];
+            document.getElementById('plotImage').innerHTML= data["imagePath"];
+            console.log(data["imagePath"])
         }
     });
 }
@@ -60,7 +64,13 @@
                         <div>
                             <input id="element_4" name="price" class="element text medium" type="text" maxlength="10" value=""/>
                              <input id="checkPrice" class="button_text" type="button" value="Check Price" onclick="sendTitle()"/>
-                                  <p id="retVal"></p>
+                                  <p id="avg"></p>
+                                  <p id="min"></p>
+                                  <p id="max"></p>
+                                  <div id="plotImage" >
+
+
+                                  </div>
                         </div>
                     </li>
                     <li class="buttons">
