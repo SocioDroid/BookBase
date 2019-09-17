@@ -19,6 +19,7 @@ class Sell(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False )
     datetime = models.DateTimeField(default=datetime.datetime.now)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    bookImage = models.ImageField(upload_to="images/", default="images/noBook.png",blank=True, null=True)
 
     def __str__(self):
-        return self.add_id
+        return str(self.add_id)

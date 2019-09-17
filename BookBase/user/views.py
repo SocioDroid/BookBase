@@ -1,5 +1,3 @@
-from django.contrib.auth.models import User
-import django
 from django.http import JsonResponse
 from django.shortcuts import render
 from .forms import UserForm, UserProfileInfoForm
@@ -11,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from matplotlib import pyplot as plt
 from django.conf import settings
 import os
+from django.core.files.storage import FileSystemStorage
 
 @login_required
 def special(request):
@@ -60,7 +59,7 @@ def sell(request):
                                  })
         return render(request, 'sell.html', )
 
-    if request.method == 'POST':
+    if request.method == 'POST'and request.FILES['myfile']:
         title = request.POST.get('title')
         author =request.POST.get('author')
         description =request.POST.get('desc')
@@ -71,7 +70,7 @@ def sell(request):
         sellModel.description = description
         sellModel.price = price
         sellModel.user_id = request.user
-
+        sellModel.bookImage = request.FILES['myfile']
         sellModel.save()
         context = {'title':title,'author':author,'desc':description,'price':price}
         print(str(title)+str(author)+str(description)+str(price))
@@ -105,12 +104,12 @@ def checkPrice(titleRec):
         priceList = [avgPrice,minPrice,maxPrice]
         # Plot Graph
         plt.title(titleRec)
-        plt.text(0.5, 2.5, minPrice)
-        plt.text(0.5, 4.5, maxPrice)
+        # plt.text(0.5, 2.5, minPrice)
+        # plt.text(0.5, 4.5, maxPrice)
 
         plt.scatter(range(len(bookPrice)),bookPrice)
         plt.savefig(os.path.join(settings.BASE_DIR,'static/user/images/'+titleRec+'.png'))
-        figPath ="<img src="+'"'+"{% static 'user/images/"+titleRec+".png' %}"+'"'+">"
+        figPath ="<img src="+'"'+"/static/user/images/"+titleRec+".png"+'"'+" height="+'"'+"50% width="+'"'+"50%"+'"'+">"
 
         priceList.append(figPath)
         print(figPath)
