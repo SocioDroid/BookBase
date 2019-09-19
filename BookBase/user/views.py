@@ -10,6 +10,9 @@ from matplotlib import pyplot as plt
 from django.conf import settings
 import os
 from django.core.files.storage import FileSystemStorage
+from django.views.generic import ListView, CreateView # new
+from django.urls import reverse_lazy
+from .forms import SellForm
 
 @login_required
 def special(request):
@@ -114,3 +117,13 @@ def checkPrice(titleRec):
         priceList.append(figPath)
         print(figPath)
     return (priceList)
+
+class CreatePostView(CreateView): # new
+    model = Sell
+    form_class = SellForm
+    template_name = 'sell2.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.user_id = self.request.user
+        return super().form_valid(form)

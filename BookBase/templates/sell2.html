@@ -1,0 +1,47 @@
+
+{% load static %}
+<html>
+<head>
+  <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>BOOKBANK</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'form/view.css' %}" media="all">
+        <script type="text/javascript" src="{% static 'form/jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'form/view.js' %}"></script>
+        <script>
+    function sendTitle(){
+    var title = document.getElementById('id_title').value
+    $.ajax({
+        url: 'sell/',
+        data : {
+            'title': title,
+        },
+        success: function (data) {
+            document.getElementById('avg').innerHTML = data["avg"];
+            document.getElementById('min').innerHTML = data["min"];
+            document.getElementById('max').innerHTML = data["max"];
+            document.getElementById('plotImage').innerHTML= data["imagePath"];
+            console.log(data["imagePath"])
+        }
+    });
+}
+
+</script>
+
+</head>
+<h1>SELL Books</h1>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input id="checkPrice" class="button_text" type="button" value="Check Price" onclick="sendTitle()"/>
+                                  <p id="avg"></p>
+                                  <p id="min"></p>
+                                  <p id="max"></p>
+                                  <div id="plotImage" >
+
+
+                                  </div>
+  <button type="submit">Submit New Post</button>
+
+</form>
+</html>
