@@ -97,7 +97,7 @@ def checkPrice(titleRec):
             sum = sum + i;
 
         avg = sum / len(bookPrice)
-        avgPrice = 'Average Price : '+ str(avg)
+        avgPrice = 'Suggested Price : '+ str(avg)
         minPrice = 'Minimum Price : '+ str( bookPrice[0])
         maxPrice = 'Maximum Price : '+str(bookPrice[-1])
         # print(avgPrice)
@@ -127,3 +127,18 @@ class CreatePostView(CreateView): # new
     def form_valid(self, form):
         form.instance.user_id = self.request.user
         return super().form_valid(form)
+
+    def get(self, request):
+        title = request.GET.get('title')
+        # retVal = ""
+        if title:
+            retVal = checkPrice(title)
+            # print(retVal)
+            return JsonResponse({
+                'avg': retVal[0],
+                'min': retVal[1],
+                'max': retVal[2],
+                'imagePath': retVal[3]
+            })
+        form =self.form_class(initial=self.initial)
+        return render(request, 'sell2.html',{'form': form})
