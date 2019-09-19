@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from .forms import UserForm, UserProfileInfoForm
-from .models import Sell
+from .models import Sell, UserProfileInfo
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -13,6 +13,9 @@ from django.core.files.storage import FileSystemStorage
 from django.views.generic import ListView, CreateView # new
 from django.urls import reverse_lazy
 from .forms import SellForm
+import urllib.request
+import urllib.parse
+from django.contrib.auth.models import User
 
 @login_required
 def special(request):
@@ -142,6 +145,7 @@ class CreatePostView(CreateView): # new
             })
         form =self.form_class(initial=self.initial)
         return render(request, 'sell2.html',{'form': form})
+
 def BuyView(request):
     datalist= []
     if request.method == 'POST':
@@ -158,22 +162,56 @@ def BuyView(request):
                     'title':e.title,
                     'auth':e.author,
                     'descp':e.description,
-                    'img':e.bookImage
+                    'img':e.bookImage,
+                    'add_id': e.add_id
                 }
                 datalist.append(context)
         return render(request, 'registration/buy.html', {'data':datalist})
 
+    if request.method == 'GET':
+        id = request.GET.get('id')
+        if id:
+            userid = request.GET.get('user_id')
+            e = Sell.objects.get(add_id=id)
 
-    for e in Sell.objects.all():
-        if e:
-            context = {
-                'price': e.price,
-                'title': e.title,
-                'auth': e.author,
-                'descp': e.description,
-                'img': e.bookImage
-            }
-            datalist.append(context)
-    return render(request, 'registration/buy.html', {'data': datalist})
+            user_profile = UserProfileInfo.objects.get(user_id=userid)
+            user_data = User.objects.get(id=userid)
+            seller_data = UserProfileInfo.objects.get(user_id=e.user_id_id)
+
+            print(user_data.username)
+            message = user_data.username + " is interested in buying " +e.title
+            resp = sendSMS('Yn2kY8xfT5I-OD8YRS2lC8mXslywI4KqsphMz7WzWo', '91'+seller_data.phoneNo,'TXTLCL', message)
+            print(resp)
+
+            if id:
+                return JsonResponse({
+                                     'id': e.price
+                                     })
+            return render(request, 'buy.html', )
+        else:
+            for e in Sell.objects.all():
+                if e:
+                    context = {
+                        'price': e.price,
+                        'title': e.title,
+                        'auth': e.author,
+                        'descp': e.description,
+                        'img': e.bookImage,
+                        'add_id':e.add_id
+                    }
+                    datalist.append(context)
+            return render(request, 'registration/buy.html', {'data': datalist})
 
   #  return render(request, 'registration/buy.html', {})
+
+
+def sendSMS(apikey, numbers, sender, message):
+    data = urllib.parse.urlencode({'apikey': apikey, 'numbers': numbers,
+                                   'message': message, 'sender': sender})
+    data = data.encode('utf-8')
+    request = urllib.request.Request("https://api.textlocal.in/send/?")
+    f = urllib.request.urlopen(request, data)
+    fr = f.read()
+    return (fr)
+
+

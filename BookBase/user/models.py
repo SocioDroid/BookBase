@@ -7,6 +7,7 @@ class UserProfileInfo(models.Model):
     college = models.CharField(max_length=50)
     department = models.CharField(max_length=50)
     year = models.CharField(max_length=2)
+    phoneNo = models.CharField(max_length=10,blank=False,default="9075673327")
 
     def __str__(self):
         return self.user.username
@@ -23,3 +24,5 @@ class Sell(models.Model):
 
     def __str__(self):
         return str(self.add_id)
+
+
