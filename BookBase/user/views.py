@@ -124,7 +124,6 @@ class CreatePostView(CreateView): # new
     template_name = 'sell2.html'
     success_url = reverse_lazy('home')
 
-<<<<<<< HEAD
     def form_valid(self, form):
         form.instance.user_id = self.request.user
         return super().form_valid(form)
@@ -143,7 +142,6 @@ class CreatePostView(CreateView): # new
             })
         form =self.form_class(initial=self.initial)
         return render(request, 'sell2.html',{'form': form})
-=======
 def BuyView(request):
     datalist= []
     if request.method == 'POST':
@@ -179,4 +177,3 @@ def BuyView(request):
     return render(request, 'registration/buy.html', {'data': datalist})
 
   #  return render(request, 'registration/buy.html', {})
->>>>>>> BUY QWorking
