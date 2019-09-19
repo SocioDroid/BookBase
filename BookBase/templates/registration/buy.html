@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form name="bufform" action="" method="POST">
+    {% csrf_token %}
+    <div>BOOK Name</div>
+    <input type="text" name="book" placeholder="Enter book name">
+<button type="submit" >SEARCH</button><br>
+{% for pair in data %}
+        <p>{{ pair.title }} ========== {{ pair.price }}========={{pair.auth}}========{{pair.descp}} ---->  <img src="{{pair.img.url}}" alt="{{ pair.title }}" height="20%" width="20%"><br></p>
+{% endfor %}
+
+</form>
+
+
+</body>
+</html>

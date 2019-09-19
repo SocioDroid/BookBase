@@ -11,6 +11,12 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),  # new
 ]
 
+<<<<<<< HEAD
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += staticfiles_urlpatterns()
+=======
+if settings.DEBUG: # new
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += staticfiles_urlpatterns()
+>>>>>>> BUY QWorking
