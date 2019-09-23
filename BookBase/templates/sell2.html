@@ -1,14 +1,112 @@
-
+{%extends 'base.html' %}
 {% load static %}
-<html>
 <head>
-  <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>BOOKBANK</title>
-<!--        <link rel="stylesheet" type="text/css" href="{% static 'form/view.css' %}" media="all">-->
-        <script type="text/javascript" src="{% static 'form/jquery.min.js' %}"></script>
-<!--        <script type="text/javascript" src="{% static 'form/view.js' %}"></script>-->
-        <script>
+   {% block title  %}
+   BookBase SignUp
+   {% endblock %}
+
+</head>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <button type="submit">Submit New Post</button>
+
+</form>
+{%  block body %}
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54" style="width: 600px">
+				<form class="login100-form validate-form" enctype="multipart/form-data" method="POST">
+					{% csrf_token %}
+					<span class="login100-form-title p-b-49">
+						Sign Up
+					</span>
+
+					<div class="wrap-input100 validate-input m-b-23" data-validate = "Title is required">
+						<span class="label-input100">Title</span>
+						<input class="input100" type="text" name="username" maxlength="150" required id="id_title" placeholder="Type your book title">
+						<span class="focus-input100" data-symbol="&#xf206;"></span>
+					</div>
+
+
+
+					<div class="wrap-input100 validate-input" data-validate="Author is required">
+						<span class="label-input100">Author</span>
+						<input class="input100" type="text" name="password" required id="id_author" placeholder="Type your book's Author name">
+						<span class="focus-input100" data-symbol="&#xf190;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Description is required">
+						<span class="label-input100">Description</span>
+						<input class="input100" type="text" name="email" maxlength="254" id="id_description"  placeholder="Type your book's Description">
+						<span class="focus-input100" data-symbol="&#xf15a;"></span>
+					</div>
+					<div class="wrap-input100 validate-input" data-validate="Price is required">
+						<span class="label-input100">Price</span>
+						<input class="input100" name="phoneNo" maxlength="254" id="id_price" placeholder="Enter the price" style="width: 60%;" type="number">
+						<span class="focus-input100" data-symbol="&#xf15a;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="">
+						<span class="label-input100">Book Image</span>
+
+					 <input style="margin: 26px;margin-top: 25px;margin-left: 5px;" class="btn btn-primary" required="" id="id_bookImage" accept="image/*" type="file">
+
+
+
+					</div>
+
+					<div class="text-right p-t-8 p-b-31">
+					</div>
+                    <input id="checkPrice" class="button_text " type="button" value="Check Price" onclick="sendTitle()"/>
+
+                                 <p id="avg"></p>
+
+                                  <div id="plotImage" >
+                                  </div>
+
+<div id="dialog" title="Basic dialog">
+  <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+</div>
+
+
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn" type="submit" >
+								Sign Up
+							</button>
+						</div>
+						</div>
+					<br>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+
+<!--===============================================================================================-->
+	<script src="{% static 'user/signup/vendor/animsition/js/animsition.min.js' %}"></script>
+
+<!--===============================================================================================-->
+	<script src="{% static 'user/signup/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'user/signup/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'user/signup/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'user/signup/vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'user/signup/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'user/signup/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'user/signup/js/main.js' %}"></script>
+ <script>
     function sendTitle(){
     var title = document.getElementById('id_title').value
     $.ajax({
@@ -20,25 +118,10 @@
             document.getElementById('avg').innerHTML = data["avg"];
             document.getElementById('plotImage').innerHTML= data["imagePath"];
             console.log(data["imagePath"])
+            alert()
         }
     });
 }
-
 </script>
 
-</head>
-<h1>SELL Books</h1>
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input id="checkPrice" class="button_text" type="button" value="Check Price" onclick="sendTitle()"/>
-                                  <p id="avg"></p>
-
-                                  <div id="plotImage" >
-
-
-                                  </div>
-  <button type="submit">Submit New Post</button>
-
-</form>
-</html>
+{% endblock %}

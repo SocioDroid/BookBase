@@ -1,16 +1,15 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from .forms import UserForm, UserProfileInfoForm
-from .models import Sell, UserProfileInfo
-from django.contrib.auth import authenticate, login, logout
+from .models import Sell, UserProfileInfo, Notify
+from django.contrib.auth import logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from matplotlib import pyplot as plt
 from django.conf import settings
 import os
-from django.core.files.storage import FileSystemStorage
-from django.views.generic import ListView, CreateView # new
+from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from .forms import SellForm
 import urllib.request
@@ -45,46 +44,83 @@ def register(request):
     else:
         user_form = UserForm()
         profile_form = UserProfileInfoForm()
-    return render(request, 'registration/signup.html',{
+    return render(request, 'signup.html',{
                                             'user_form':user_form,
                                             'profile_form':profile_form,
                                             'registered':registered
                                         })
-def sell(request):
-    if request.method == 'GET':
-        title = request.GET.get('title')
-        #retVal = ""
-        if title:
-            retVal =  checkPrice(title)
-            #print(retVal)
-            return JsonResponse({
-                                 'avg': retVal[0],
-                                 'min': retVal[1],
-                                 'max': retVal[2],
-                                 'imagePath': retVal[3]
-                                 })
-        return render(request, 'sell.html', )
 
-    if request.method == 'POST'and request.FILES['myfile']:
-        title = request.POST.get('title')
-        author =request.POST.get('author')
-        description =request.POST.get('desc')
-        price =request.POST.get('price')
-        sellModel = Sell()
-        sellModel.title = title
-        sellModel.author = author
-        sellModel.description = description
-        sellModel.price = price
-        sellModel.user_id = request.user
-        sellModel.bookImage = request.FILES['myfile']
-        sellModel.save()
-        context = {'title':title,'author':author,'desc':description,'price':price}
-        print(str(title)+str(author)+str(description)+str(price))
 
-        return render(request,'sell.html', context)
-    else:
-        return render(request, 'sell.html', {})
+def dashboard(request):
+    notifications = Notify.objects.filter(seller_id_id=request.user.id)
+    notificationList=[]
 
+    for e in notifications:
+        pair = {
+            'notId': e.notify_id,
+            'date': e.datetime,
+            'buyer': User.objects.get(id=e.buyer_id_id),
+            'prodName':Sell.objects.get(add_id = e.add_id_id)
+        }
+        notificationList.append(pair)
+
+# ------------------------------------------------------- Advertisements List
+
+    advt = Sell.objects.filter(user_id_id=request.user.id)
+    advtList=[]
+
+    for e in advt:
+        pair = {
+            'notId': e.add_id,
+            'date': e.datetime,
+            'author': e.author,
+            'title':e.title
+
+        }
+        advtList.append(pair)
+
+    context = {'pair':notificationList,'advt':advtList}
+
+    return render(request, 'dash.html', context)
+
+
+#OLD SELL
+# def sell(request):
+#     if request.method == 'GET':
+#         title = request.GET.get('title')
+#         #retVal = ""
+#         if title:
+#             retVal =  checkPrice(title)
+#             #print(retVal)
+#             return JsonResponse({
+#                                  'avg': retVal[0],
+#                                  'min': retVal[1],
+#                                  'max': retVal[2],
+#                                  'imagePath': retVal[3]
+#                                  })
+#         return render(request, 'sell.html', )
+#
+#     if request.method == 'POST'and request.FILES['myfile']:
+#         title = request.POST.get('title')
+#         author =request.POST.get('author')
+#         description =request.POST.get('desc')
+#         price =request.POST.get('price')
+#         sellModel = Sell()
+#         sellModel.title = title
+#         sellModel.author = author
+#         sellModel.description = description
+#         sellModel.price = price
+#         sellModel.user_id = request.user
+#         sellModel.bookImage = request.FILES['myfile']
+#         sellModel.save()
+#         context = {'title':title,'author':author,'desc':description,'price':price}
+#         print(str(title)+str(author)+str(description)+str(price))
+#
+#         return render(request,'sell.html', context)
+#     else:
+#         return render(request, 'sell.html', {})
+
+#PRICE SUGGESTOR
 def checkPrice(titleRec):
     bookPrice = []
     flag=False
@@ -121,6 +157,7 @@ def checkPrice(titleRec):
         print(figPath)
     return (priceList)
 
+#SELL FORM
 class CreatePostView(CreateView): # new
     model = Sell
     form_class = SellForm
@@ -152,7 +189,6 @@ def BuyView(request):
         dict={
             "book" : request.POST.get("book")
         }
-
         booknm = request.POST.get('book')
         datalist = []
         for e in Sell.objects.filter(title__icontains=booknm).order_by('-price'):
@@ -171,21 +207,28 @@ def BuyView(request):
     if request.method == 'GET':
         id = request.GET.get('id')
         if id:
-            userid = request.GET.get('user_id')
-            e = Sell.objects.get(add_id=id)
+            buyerid = request.GET.get('user_id')
+            prod_data = Sell.objects.get(add_id=id)
+            buyer_data = User.objects.get(id=buyerid)
+            seller_data = UserProfileInfo.objects.get(user_id=prod_data.user_id_id)
 
-            user_profile = UserProfileInfo.objects.get(user_id=userid)
-            user_data = User.objects.get(id=userid)
-            seller_data = UserProfileInfo.objects.get(user_id=e.user_id_id)
+            print(buyer_data.username)
 
-            print(user_data.username)
-            message = user_data.username + " is interested in buying " +e.title
+            #SENDING SMS
+            message = buyer_data.username + " is interested in buying " +prod_data.title
             resp = sendSMS('Yn2kY8xfT5I-OD8YRS2lC8mXslywI4KqsphMz7WzWo', '91'+seller_data.phoneNo,'TXTLCL', message)
             print(resp)
 
+            #ADDING DATA INTO NOTIFICATION TABLE
+            notifyModel = Notify()
+            notifyModel.add_id_id =prod_data.add_id
+            notifyModel.seller_id_id=seller_data.user_id
+            notifyModel.buyer_id_id=buyer_data.id
+            notifyModel.save()
+
             if id:
                 return JsonResponse({
-                                     'id': e.price
+                                     'id': prod_data.price
                                      })
             return render(request, 'buy.html', )
         else:

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.timezone import now
 import datetime
 class UserProfileInfo(models.Model):
 
@@ -21,6 +22,17 @@ class Sell(models.Model):
     datetime = models.DateTimeField(default=datetime.datetime.now)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     bookImage = models.ImageField(upload_to="images/", default="images/noBook.png",blank=True, null=True)
+
+    def __str__(self):
+        return str(self.add_id)
+
+
+class Notify(models.Model):
+    notify_id = models.AutoField(primary_key=True)
+    add_id = models.ForeignKey(Sell, on_delete=models.CASCADE,related_name="addNotify")
+    buyer_id = models.ForeignKey(User, on_delete=models.CASCADE,related_name="buyerNotify")
+    seller_id = models.ForeignKey(User, on_delete=models.CASCADE,related_name="sellerNotify")
+    datetime = models.DateTimeField(default=now, editable=False)
 
     def __str__(self):
         return str(self.add_id)

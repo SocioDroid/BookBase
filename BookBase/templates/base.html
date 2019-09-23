@@ -1,0 +1,433 @@
+{% load static %}
+<html lang="en">
+   <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'table/vendor/bootstrap/css/bootstrap.min.css' %}">
+      <title>
+         {% block title %}
+         {% endblock %}
+      </title>
+       <!--       css for signup !!-->
+       	<link rel="icon" type="image/png" href="{% static 'user/signup/images/icons/favicon.ico' %}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="v{% static 'user/signup/vendor/bootstrap/css/bootstrap.min.css' %}">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'user/signup/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'user/signup/fonts/iconic/css/material-design-iconic-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'user/signup/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'user/signup/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'user/signup/vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'user/signup/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'user/signup/vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'user/signup/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'user/signup/css/main.css' %}">
+
+<!--       csss signup end-->
+      <style>
+         @font-face {
+         src: url('etna-free-font.otf');
+         }
+         .logo{
+         font-size: 30px;
+         font-family: etna;
+         }
+         .heading{
+         color: black;
+         font-size: 30px;
+         font-family:etna;
+         line-height: 7px;
+         padding: 32px;
+         -moz-box-shadow: 2px 2px 6px #000;
+         -webkit-box-shadow: 2px 2px 6px #000;
+         box-shadow: 2px 2px 6px #000;
+         text-align: center;
+         }
+         body {
+         font-family: 'lato', sans-serif;
+         margin: 0;
+         width: 100%;
+         height: 100vh;
+         font-family: "Exo", sans-serif;
+         background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab );
+         background-size: 400% 800%;
+         -webkit-animation: gradientBG 30s ease infinite;
+         animation: gradientBG 30s ease infinite;
+         }
+         @-webkit-keyframes gradientBG {
+         0% {
+         background-position: 0% 50%;
+         }
+         50% {
+         background-position: 100% 50%;
+         }
+         100% {
+         background-position: 0% 50%;
+         }
+         }
+         @keyframes gradientBG {
+         0% {
+         background-position: 0% 50%;
+         }
+         50% {
+         background-position: 100% 50%;
+         }
+         100% {
+         background-position: 0% 50%;
+         }
+         }
+         .container {
+         max-width: 1000px;
+         margin-left: auto;
+         margin-right: auto;
+         padding-left: 10px;
+         padding-right: 10px;
+         }
+         h2 {
+         font-size: 26px;
+         margin: 20px 0;
+         text-align: center;
+         }
+         h2 small {
+         font-size: 0.5em;
+         }
+         .responsive-table li {
+         border-radius: 3px;
+         padding: 25px 30px;
+         display: flex;
+         justify-content: space-between;
+         margin-bottom: 25px;
+         }
+         .responsive-table .table-header {
+         background-color: #000;
+         font-size: 14px;
+         text-transform: uppercase;
+         letter-spacing: 0.03em;
+         color: white;
+         margin-top: 25px;
+         }
+         .responsive-table .table-row {
+         background-color: #ffffff;
+         box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+         }
+         .responsive-table .col-1 {
+         flex-basis: 10%;
+         }
+         .responsive-table .col-2 {
+         flex-basis: 40%;
+         }
+         .responsive-table .col-3 {
+         flex-basis: 20%;
+         }
+         .responsive-table .col-4 {
+         flex-basis: 35%;
+         }
+         @media all and (max-width: 767px) {
+         .responsive-table .table-header {
+         display: none;
+         }
+         .responsive-table li {
+         display: block;
+         }
+         .responsive-table .col {
+         flex-basis: 100%;
+         }
+         .responsive-table .col {
+         display: flex;
+         padding: 10px 0;
+         }
+         .responsive-table .col:before {
+         color: #6C7A89;
+         padding-right: 10px;
+         content: attr(data-label);
+         flex-basis: 50%;
+         text-align: right;
+         }
+         }
+         .table-row{
+         transition: box-shadow .3s;
+         }
+         .table-row:hover {
+         box-shadow: 0 0 11px rgba(0, 0, 0, 0.90);
+         }
+         <!--wavess-->
+         .header {
+         position:relative;
+         text-align:center;
+         background: linear-gradient(60deg, rgba(84,58,183,1) 0%, rgba(0,172,193,1) 100%);
+         color:white;
+         }
+         .waves {
+         position:relative;
+         width: 100%;
+         height:15vh;
+         margin-bottom:-7px; /*Fix for safari gap*/
+         min-height:100px;
+         max-height:150px;
+         }
+         /* Animation */
+         .parallax > use {
+         animation: move-forever 25s cubic-bezier(.55,.5,.45,.5)     infinite;
+         }
+         .parallax > use:nth-child(1) {
+         animation-delay: -2s;
+         animation-duration: 7s;
+         }
+         .parallax > use:nth-child(2) {
+         animation-delay: -3s;
+         animation-duration: 10s;
+         }
+         .parallax > use:nth-child(3) {
+         animation-delay: -4s;
+         animation-duration: 13s;
+         }
+         .parallax > use:nth-child(4) {
+         animation-delay: -5s;
+         animation-duration: 20s;
+         }
+         @keyframes move-forever {
+         0% {
+         transform: translate3d(-90px,0,0);
+         }
+         100% {
+         transform: translate3d(85px,0,0);
+         }
+         }
+
+.content {
+  position:relative;
+  height: 8vh;
+  text-align:center;
+  background-color: white;
+}
+
+/*Shrinking for mobile*/
+@media (max-width: 768px) {
+  .waves {
+    height:40px;
+    min-height:40px;
+  }
+  .content {
+    height:30vh;
+  }
+
+.flex { /*Flexbox for containers*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+<!--popup-->
+
+
+h1 {
+  text-align: center;
+  font-family: Tahoma, Arial, sans-serif;
+  color: #06D85F;
+  margin: 80px 0;
+}
+
+.box {
+  width: 40%;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.2);
+  padding: 35px;
+  border: 2px solid #fff;
+  border-radius: 20px/50px;
+  background-clip: padding-box;
+  text-align: center;
+}
+
+.button {
+  font-size: 1em;
+  padding: 10px;
+  color: #fff;
+  border: 2px solid #06D85F;
+  border-radius: 20px/50px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+.button:hover {
+  background: #06D85F;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+.popup .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+.popup .close:hover {
+  color: #06D85F;
+}
+.popup .content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+@media screen and (max-width: 700px){
+  .box{
+    width: 70%;
+  }
+  .popup{
+    width: 70%;
+  }
+}
+<!--popupended-->
+
+      </style>
+
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="{% static 'header/demo.css' %}">
+      <link rel="stylesheet" href="{% static 'header/header-fixed.css' %}">
+
+
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="{% static 'user/signup/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+
+  <script>
+ $(function () {
+  $( "#dialog1" ).dialog({
+    autoOpen: false
+  });
+
+  $("#opener").click(function() {
+    $("#dialog1").dialog('open');
+  });
+});
+  </script>
+   </head>
+   <body>
+
+<button id="opener">open the dialog</button>
+<div id="dialog1" title="Dialog Title" hidden="hidden">I'm a dialog</div>
+      <header class="header-fixed">
+         <div class="header-limiter">
+            <h1><a href="#">Book<span>Base</span></a></h1>
+            <nav>
+                <a href="{% url 'sell' %}" class="effect-underline underlineA">SELL</a>
+                <a href="{% url 'buy' %}" class="effect-underline underlineA">BUY</a>
+                <a href="{% url 'dashboard' %}" class="effect-underline underlineA" >DASHBOARD</a>
+
+                {% if user.is_authenticated %}
+
+                <a href="{% url 'logout' %}"  class="effect-underline underlineA">LOGOUT</a>
+
+                {% else %}
+
+                <a href="{% url 'login' %}"  class="effect-underline underlineA">LOGIN</a>
+                <a href="{% url 'signup' %}" class="effect-underline underlineA" >SIGNUP</a>
+
+                {% endif %}
+            </nav>
+         </div>
+      </header>
+      <!-- You need this element to prevent the content of the page from jumping up -->
+      <div class="header-fixed-placeholder"></div>
+
+      {%  block body %}
+      <h1>Base body</h1>
+      {% endblock %}
+      <footer>
+         <div class="header">
+            <!--Waves Container-->
+            <div>
+               <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                  viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                  <defs>
+                     <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                  </defs>
+                  <g class="parallax">
+                     <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                     <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                     <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                     <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+                  </g>
+               </svg>
+            </div>
+         </div>
+          <div class="content flex">
+            <p>Made with <i class="fa fa-heart" aria-hidden="true"></i>  <br>Siddharth Bhoite & Aishwarya Kendle
+            </div>
+      </footer>
+
+      <script type="text/javascript" src="{% static 'form/jquery.min.js' %}"></script>
+      <script>
+         $(document).ready(function(){
+         
+         	var showHeaderAt = 150;
+         
+         	var win = $(window),
+         			body = $('body');
+         
+         	// Show the fixed header only on larger screen devices
+         
+         	if(win.width() > 600){
+         
+         		// When we scroll more than 150px down, we set the
+         		// "fixed" class on the body element.
+         
+         		win.on('scroll', function(e){
+         
+         			if(win.scrollTop() > showHeaderAt) {
+         				body.addClass('fixed');
+         			}
+         			else {
+         				body.removeClass('fixed');
+         			}
+         		});
+         
+         	}
+         
+         });
+         
+      </script>
+   </body>
+</html>
+

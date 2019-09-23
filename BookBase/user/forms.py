@@ -10,7 +10,7 @@ class UserForm( forms.ModelForm ):
 class UserProfileInfoForm(forms.ModelForm):
      class Meta():
          model = UserProfileInfo
-         fields = ('college','department', 'year')
+         fields = ('college','department', 'year','phoneNo')
 
 class SellForm(forms.ModelForm):
 

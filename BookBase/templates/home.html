@@ -7,12 +7,12 @@
 {% if user.is_authenticated %}
 
   Hi {{ user.username }}!
- <p><a href="{% url 'logout' %}">logout</a></p>
+
 
 <a href="{% url 'sell' %}"><button>SELL</button></a>
 <a href="{% url 'buy' %}"><button>BUY</button></a>
-
-
+<a href="{% url 'dashboard' %}"><button>DASHBOARD</button></a>
+<p><a href="{% url 'logout' %}">logout</a></p>
 
 {% else %}
   <p>You are not logged in</p>

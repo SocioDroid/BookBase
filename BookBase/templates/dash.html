@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+<head>
+   {% block title  %}
+   BookBase Dashboard
+   {% endblock %}
+</head>
+{%  block body %}
+<br>
+<br>
+<center>
+   <h3 class="heading" style="background-color: white;">Notifications</h3>
+</center>
+{% if pair %}
+<div class="container" name = "Notifications">
+   <ul class="responsive-table">
+      <li class="table-header" >
+         <div class="col col-1">Id</div>
+         <div class="col col-2">BOOK</div>
+         <div class="col col-3">Interested Buyer</div>
+         <div class="col col-4">Date</div>
+         <div class="col col-5">Action</div>
+      </li>
+      {% for n in pair %}
+      <li class="table-row">
+         <div class="col col-1" data-label="Job Id">{{n.notId}}</div>
+         <div class="col col-2" data-label="Job Id">{{n.prodName.title}}</div>
+         <div class="col col-3" data-label="Customer Name">{{n.buyer.username}}</div>
+         <div class="col col-4" data-label="Amount">{{n.date}}</div>
+         <div class="col col-5" data-label="Payment Status"><input type="button"  class="btn btn-success" value="SOLD" onclick="">&nbsp; &nbsp;<input type="button" class="btn btn-danger" value="DROP" onclick=""></div>
+      </li>
+      {% endfor %}
+      {% else %}
+      <h5 style="text-align: center;color: #000c; padding: 30px;">Currently you have no notifications</h5>
+      {% endif %}
+   </ul>
+</div>
+<br>
+<br>
+<center>
+   <h3 class="heading" style="background-color: white;">Advertisements</h3>
+</center>
+{% if advt %}
+<div class="container" name = "Advt">
+   <ul class="responsive-table">
+      <li class="table-header" id = "table-header">
+         <div class="col col-1">Id</div>
+         <div class="col col-2">BOOK</div>
+         <div class="col col-3">Author</div>
+         <div class="col col-4">Posted At</div>
+         <div class="col col-5">Action</div>
+      </li>
+      {% for n in advt %}
+      <li class="table-row">
+         <div class="col col-1">{{n.notId}}</div>
+         <div class="col col-2">{{n.title}}</div>
+         <div class="col col-3">{{n.author}}</div>
+         <div class="col col-4">{{n.date}}</div>
+         <div class="col col-5"><input type="button" class="btn btn-danger" value="DELETE" onclick=""></div>
+      </li>
+      {% endfor %}
+      {% else %}
+      <h5 style="text-align: center;color: #000c; padding: 30px;">You haven't posted any advertisements yet!</h5>
+      {% endif %}
+   </ul>
+</div>
+{% endblock %}
