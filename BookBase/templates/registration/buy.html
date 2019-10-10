@@ -1,50 +1,118 @@
+{%extends 'base2.html' %} {% load static %}
 
-{% load static %}
+<head xmlns="http://www.w3.org/1999/html">
+    {% block title %} BookBase SignUp
 
-<!DOCTYPE html>
+    </title>
+    <link rel="stylesheet" type="text/css" href="{% static 'buy/main.css' %}">
+    <style>
+        img {
+    width: 200px; /* You can set the dimensions to whatever you want */
+    height: 200px;
+    object-fit: cover;
+}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script type="text/javascript" src="{% static 'form/jquery.min.js' %}"></script>
-<!--        <script type="text/javascript" src="{% static 'form/view.js' %}"></script>-->
-        <script>
-            function contactSeller(id,user_id){
-
-                $.ajax({
-                    url: 'buy/',
-                    data : {
-                        'id': id,
-                        'user_id':user_id
-                    },
-                    success: function (data) {
-                                        alert("Seller Contacted Successfully with id " + data["id"])
-
-                    }
-                });
-
-        }
-
-
-    </script>
-
-
+    </style>
+ {% endblock %}
+    <!--        <script type="text/javascript" src="{% static 'form/jquery.min.js' %}"></script>-->
+    <!--        <script type="text/javascript" src="{% static 'form/view.js' %}"></script>-->
 </head>
 
-<body>
-
-<form name="bufform" action="" method="POST">
+{% block body %}
+<form name="searchForm" action="" method="POST" style="margin-bottom: -30px;">
     {% csrf_token %}
-    <div>BOOK Name</div>
-    <input type="text" name="book" placeholder="Enter book name">
-<button type="submit" >SEARCH</button><br>
-{% for pair in data %}
-        <p>{{ pair.title }} ========== {{ pair.price }}========={{pair.auth}}========{{pair.descp}} ---{{pair.add_id}}---->  <img src="{{pair.img.url}}" alt="{{ pair.title }}" height="20%" width="20%"><input type="button" value="Contact Seller" onclick="contactSeller({{pair.add_id}},{{user.id}})"><br></p>
-{% endfor %}
+    <center style="padding: 15px;">
+        <input id="search-box" style="margin-left: 16px;" type="text" class="search-box" name="q" />
+        <label for="search-box"><span class="fa fa-search search-icon"></span></label>
 
+    </center>
+    <input type="submit"  id="search-submit" name = "searchForm">
 </form>
+<form name="sortForm" id="form2" action="" method="POST">
+    {% csrf_token %}
+    <!--          DropDown            -->
+    <div class="containerr">
+        <span class="choose">Filter</span>
+
+        <div class="dropdown">
+            <center><div class="select">
+                <span class="spanSort">A - Z</span>
+                <i class="fa fa-chevron-left"></i>
+            </div>
+            </center>
+            <input type="hidden" name="list" >
+            <ul class="dropdown-menu">
+                <li id="az">A - Z</li>
+                <li id="za">Z - A</li>
+                <li id="trending">Trending</li>
+                <li id="aPrice">&#x20b9; Min to &#x20b9; Max</li>
+                <li id="dPrice">&#x20b9; Max to &#x20b9; Min</li>
+            </ul>
+        </div>
+
+        <span class="msg"></span>
+    </div>
+    <center>
+        <button type="submit" class="btn btn-dark" name="sortForm">Filter</button>
+    </center>
+</form>
+<br>
+<!--test-->
+<div class="row" style="padding-left: 25px;">
+    {% for pair in data %}
+  <div class="col" style="padding-bottom: 34px;">
+      <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="{{pair.img.url}}" alt="Card image cap">
+              <div class="card-body">
+                    <h5 class="card-title">{{ pair.title }}</h5>
+                    <p class="card-text">Author : {{pair.auth}}</p>
+                    <p class="card-text">Price : {{pair.price}}</p>
+                    <p class="card-text">{{pair.descp}}</p>
+                    <button onclick="contactSeller({{pair.add_id}},{{user.id}})" class="btn btn-primary">Contact Seller</button>
+              </div>
+      </div>
+  </div>
+        {% endfor %}
+</div>
 
 
-</body>
+
+
+
+<!--test-->
+
+<!--    <br> {% for pair in data %}-->
+<!--    <p>{{ pair.title }} ========== {{ pair.price }}========={{pair.auth}}========{{pair.descp}} -&#45;&#45;{{pair.add_id}}&#45;&#45;&ndash;&gt; <img src="{{pair.img.url}}" alt="{{ pair.title }}" height="20%" width="20%">-->
+<!--        <input type="button" value="Contact Seller" onclick="contactSeller({{pair.add_id}},{{user.id}})">-->
+<!--        <br>-->
+<!--    </p>-->
+<!--    {% endfor %}-->
+
+
+<script>
+    document.addEventListener("touchstart", function() {}, true);
+
+    $('.dropdown').click(function() {
+        $(this).attr('tabindex', 1).focus();
+        $(this).toggleClass('active');
+        $(this).find('.dropdown-menu').slideToggle(300);
+    });
+    $('.dropdown').focusout(function() {
+        $(this).removeClass('active');
+        $(this).find('.dropdown-menu').slideUp(300);
+    });
+    $('.dropdown .dropdown-menu li').click(function() {
+        $(this).parents('.dropdown').find('span').text($(this).text());
+        $(this).parents('.dropdown').find('input').attr('value', $(this).attr('id'));
+    });
+    /*End Dropdown Menu*/
+
+    $('.dropdown-menu li').click(function() {
+        var input = '<strong>' + $(this).parents('.dropdown').find('input').val() + '</strong>',
+            msg = '<span class="msg">Hidden input value: ';
+
+    });
+</script>
+{% endblock %}
+
 </html>

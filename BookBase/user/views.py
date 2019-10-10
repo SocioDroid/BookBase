@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from .forms import UserForm, UserProfileInfoForm
-from .models import Sell, UserProfileInfo, Notify
+from .models import Sell, UserProfileInfo, Notify, Sold
 from django.contrib.auth import logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -15,7 +15,10 @@ from .forms import SellForm
 import urllib.request
 import urllib.parse
 from django.contrib.auth.models import User
-
+from .models import UserProfileInfo
+import pandas as pd
+import numpy as np
+import operator
 @login_required
 def special(request):
     return HttpResponse("You are logged in !")
@@ -52,7 +55,56 @@ def register(request):
 
 
 def dashboard(request):
+
+    if request.method == 'GET' and 'notID' in request.GET:
+        nid = request.GET.get('notID')
+        # retVal = ""
+        one_task = Sell.objects.get(add_id=nid)
+        if one_task:
+            print('task =' ,one_task)
+
+            one_task.delete()  # line 1
+            #two_task = Sell.objects.get(id=nid)
+
+            # print(retVal)
+            return JsonResponse({
+                'id':"Advertisement is deleted."
+            })
+
+    if request.method == 'GET' and 'notificationID' in request.GET:
+        nid = request.GET.get('notificationID')
+        # retVal = ""
+        one_task = Notify.objects.get(notify_id=nid)
+        if one_task:
+            print('task =' ,one_task)
+
+            one_task.delete()  # line 1
+            #two_task = Sell.objects.get(id=nid)
+
+            # print(retVal)
+            return JsonResponse({
+                'id':"Notifiaction is deleted."
+            })
+    if request.method == 'GET' and 'soldNID' in request.GET:
+        nid = request.GET.get('soldNID')
+        # retVal = ""
+        one_task = Notify.objects.get(notify_id=nid)
+        if one_task:
+            sellRow = Sell.objects.get(add_id=one_task.add_id_id)
+
+            soldModel = Sold()
+            soldModel.title = sellRow.title
+            soldModel.price = sellRow.price
+            soldModel.save()
+
+            sellRow.delete()
+            # print(retVal)
+            return JsonResponse({
+                'id':"BOOK SOLD !"
+            })
+
     notifications = Notify.objects.filter(seller_id_id=request.user.id)
+
     notificationList=[]
 
     for e in notifications:
@@ -100,7 +152,7 @@ def dashboard(request):
 #                                  })
 #         return render(request, 'sell.html', )
 #
-#     if request.method == 'POST'and request.FILES['myfile']:
+#     if request.method == 'POST'id_authorand request.FILES['myfile']:
 #         title = request.POST.get('title')
 #         author =request.POST.get('author')
 #         description =request.POST.get('desc')
@@ -132,10 +184,13 @@ def checkPrice(titleRec):
             flag=True
     if flag:
         bookPrice.sort()
-        for i in bookPrice:
-            sum = sum + i;
 
-        avg = sum / len(bookPrice)
+        Sum = 0
+        for e in bookPrice:
+            Sum += e
+
+
+        avg = Sum / len(bookPrice)
         avgPrice = 'Suggested Price : '+ str(avg)
         minPrice = 'Minimum Price : '+ str( bookPrice[0])
         maxPrice = 'Maximum Price : '+str(bookPrice[-1])
@@ -163,10 +218,13 @@ class CreatePostView(CreateView): # new
     form_class = SellForm
     template_name = 'sell2.html'
     success_url = reverse_lazy('home')
+    print("Inside Class")
 
     def form_valid(self, form):
         form.instance.user_id = self.request.user
-        return super().form_valid(form)
+       # print("Inside Def")
+        super().form_valid(form)
+        return HttpResponseRedirect('/user/dashboard')
 
     def get(self, request):
         title = request.GET.get('title')
@@ -185,13 +243,12 @@ class CreatePostView(CreateView): # new
 
 def BuyView(request):
     datalist= []
-    if request.method == 'POST':
-        dict={
-            "book" : request.POST.get("book")
-        }
-        booknm = request.POST.get('book')
+    if request.method == 'POST' and 'searchForm' in request.POST:
+        booknm = request.POST.get('q')
+        # gender = request.POST.get('list')
+        # print(gender, "-----------------------------------------------")
         datalist = []
-        for e in Sell.objects.filter(title__icontains=booknm).order_by('-price'):
+        for e in Sell.objects.filter(title__icontains=booknm):
             if e:
                 context = {
                     'price':e.price,
@@ -204,18 +261,101 @@ def BuyView(request):
                 datalist.append(context)
         return render(request, 'registration/buy.html', {'data':datalist})
 
+    if request.method == 'POST' and 'sortForm' in request.POST:
+        sortParam = request.POST.get('list')
+        datalist = []
+        if sortParam == "az":
+            for e in Sell.objects.order_by('title'):
+                if e:
+                    context = {
+                        'price':e.price,
+                        'title':e.title,
+                        'auth':e.author,
+                        'descp':e.description,
+                        'img':e.bookImage,
+                        'add_id': e.add_id
+                    }
+                    datalist.append(context)
+        elif sortParam == "za":
+            for e in Sell.objects.order_by('-title'):
+                if e:
+                    context = {
+                        'price':e.price,
+                        'title':e.title,
+                        'auth':e.author,
+                        'descp':e.description,
+                        'img':e.bookImage,
+                        'add_id': e.add_id
+                    }
+                    datalist.append(context)
+        elif sortParam == "aPrice":
+            for e in Sell.objects.order_by('price'):
+                if e:
+                    context = {
+                        'price':e.price,
+                        'title':e.title,
+                        'auth':e.author,
+                        'descp':e.description,
+                        'img':e.bookImage,
+                        'add_id': e.add_id
+                    }
+                    datalist.append(context)
+        elif sortParam == "dPrice":
+            for e in Sell.objects.order_by('-price'):
+                if e:
+                    context = {
+                        'price':e.price,
+                        'title':e.title,
+                        'auth':e.author,
+                        'descp':e.description,
+                        'img':e.bookImage,
+                        'add_id': e.add_id
+                    }
+                    datalist.append(context)
+        elif sortParam == "trending":
+            # __________________________________________________trendingLogic
+            res = Sold.objects.raw(
+                "select sold_id,title, -CAST(julianday('now') - julianday(user_sold.datetime)AS INT) 'age', count(title) 'cnt' from user_sold GROUP BY title,age")
+
+            soldList = []
+            for i in res:
+                l = []
+                l.append(i.title)
+                l.append(i.age)
+                l.append(i.cnt)
+                soldList.append(l)
+            print("----------------------------")
+            print(soldList)
+            trending = calcTrending(soldList)
+            # __________________________________________________trendingLogicEnds
+            for i in trending:
+                for e in Sell.objects.filter(title__icontains = i ):
+                    if e:
+                        context = {
+                            'price': e.price,
+                            'title': e.title,
+                            'auth': e.author,
+                            'descp': e.description,
+                            'img': e.bookImage,
+                            'add_id': e.add_id
+                        }
+                        datalist.append(context)
+
+        return render(request, 'registration/buy.html', {'data':datalist})
+
     if request.method == 'GET':
         id = request.GET.get('id')
         if id:
             buyerid = request.GET.get('user_id')
             prod_data = Sell.objects.get(add_id=id)
             buyer_data = User.objects.get(id=buyerid)
+            buyer_data_phone = UserProfileInfo.objects.get(user_id=buyerid)
             seller_data = UserProfileInfo.objects.get(user_id=prod_data.user_id_id)
 
             print(buyer_data.username)
 
-            #SENDING SMS
-            message = buyer_data.username + " is interested in buying " +prod_data.title
+            #SENDING SMS--------------------------------------------------------------------------------------------------
+            message = buyer_data.username + " is interested in buying " +prod_data.title+ " Contact Number :"+buyer_data_phone.phoneNo
             resp = sendSMS('Yn2kY8xfT5I-OD8YRS2lC8mXslywI4KqsphMz7WzWo', '91'+seller_data.phoneNo,'TXTLCL', message)
             print(resp)
 
@@ -232,7 +372,9 @@ def BuyView(request):
                                      })
             return render(request, 'buy.html', )
         else:
-            for e in Sell.objects.all():
+
+            #Default Sort A - Z
+            for e in Sell.objects.order_by('title'):
                 if e:
                     context = {
                         'price': e.price,
@@ -257,4 +399,35 @@ def sendSMS(apikey, numbers, sender, message):
     fr = f.read()
     return (fr)
 
+def calcTrending(d):
+
+    def train(data):
+        df = pd.DataFrame(data, columns=['title', 'age', 'count'])
+        df.sort_values(by=['title', 'age'], inplace=True)
+        trends = pd.pivot_table(df, values='count', index=['title', 'age'])
+
+        trend_snap = {}
+
+        for i in np.unique(df['title']):
+            trend = np.array(trends.loc[i])
+            # smoothed = smooth(trend, SMOOTHING_WINDOW_SIZE, SMOOTHING_WINDOW_FUNCTION)
+            nsmoothed = standardize(trend)
+            slopes = nsmoothed[1:] - nsmoothed[:-1]
+            # I blend in the previous slope as well, to stabalize things a bit and
+            # give a boost to things that have been trending for more than 1 day
+            if len(slopes) > 1:
+                trend_snap[i] = slopes[-1] + slopes[-2] * 0.5
+        return sorted(trend_snap.items(), key=operator.itemgetter(1), reverse=True)
+
+    def standardize(series):
+        iqr = np.percentile(series, 75) - np.percentile(series, 25)
+        return (series - np.median(series)) / iqr
+
+    trending = train(d)
+    print("Top 5 trending products:")
+    trendingList = []
+    for i, s in trending[:5]:
+        print("Product %s (score: %2.2f)" % (i, s))
+        trendingList.append(i)
+    return  trendingList
 

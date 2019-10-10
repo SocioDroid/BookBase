@@ -3,6 +3,7 @@
 <head>
    {% block title  %}
    BookBase Dashboard
+   </title>
    {% endblock %}
 </head>
 {%  block body %}
@@ -27,7 +28,10 @@
          <div class="col col-2" data-label="Job Id">{{n.prodName.title}}</div>
          <div class="col col-3" data-label="Customer Name">{{n.buyer.username}}</div>
          <div class="col col-4" data-label="Amount">{{n.date}}</div>
-         <div class="col col-5" data-label="Payment Status"><input type="button"  class="btn btn-success" value="SOLD" onclick="">&nbsp; &nbsp;<input type="button" class="btn btn-danger" value="DROP" onclick=""></div>
+         <div class="col col-5" data-label="Payment Status">
+            <input type="button"  class="btn btn-success" value="SOLD" onclick="sold({{n.notId}})">
+            <input type="button" class="btn btn-danger" value="DROP" onclick="removeNotification({{n.notId}})">
+         </div>
       </li>
       {% endfor %}
       {% else %}
@@ -56,7 +60,8 @@
          <div class="col col-2">{{n.title}}</div>
          <div class="col col-3">{{n.author}}</div>
          <div class="col col-4">{{n.date}}</div>
-         <div class="col col-5"><input type="button" class="btn btn-danger" value="DELETE" onclick=""></div>
+
+         <div class="col col-5"><input type="button" class="btn btn-danger" value="DELETE" onclick="removeAd({{n.notId}})"></div>
       </li>
       {% endfor %}
       {% else %}
@@ -64,4 +69,46 @@
       {% endif %}
    </ul>
 </div>
+<script>
+function removeAd(NotId){
+console.log(NotId)
+    $.ajax({
+        url: 'dashboard/',
+        data : {
+            'notID': NotId,
+        },
+        success: function (data) {
+            alert(data['id'])
+            location.reload(true);
+        }
+    });
+}
+
+function removeNotification(NotId){
+console.log(NotId)
+    $.ajax({
+        url: 'dashboard/',
+        data : {
+            'notificationID': NotId,
+        },
+        success: function (data) {
+            alert(data['id'])
+            location.reload(true);
+        }
+    });
+}
+function sold(NotId){
+console.log(NotId)
+    $.ajax({
+        url: 'dashboard/',
+        data : {
+            'soldNID': NotId,
+        },
+        success: function (data) {
+            alert(data['id'])
+            location.reload(true);
+        }
+    });
+}
+</script>
 {% endblock %}

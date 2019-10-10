@@ -38,3 +38,8 @@ class Notify(models.Model):
         return str(self.add_id)
 
 
+class Sold(models.Model):
+    sold_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=80, blank=False, null=False)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=False )
+    datetime = models.DateField(default=datetime.date.today)
