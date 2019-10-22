@@ -11,6 +11,10 @@
     height: 200px;
     object-fit: cover;
 }
+body{
+background-repeat: no-repeat;
+}
+
 
     </style>
  {% endblock %}
@@ -66,7 +70,7 @@
               <div class="card-body">
                     <h5 class="card-title">{{ pair.title }}</h5>
                     <p class="card-text">Author : {{pair.auth}}</p>
-                    <p class="card-text">Price : {{pair.price}}</p>
+                    <p class="card-text">Price : ₹ {{pair.price}}</p>
                     <p class="card-text">{{pair.descp}}</p>
                     <button onclick="contactSeller({{pair.add_id}},{{user.id}})" class="btn btn-primary">Contact Seller</button>
               </div>

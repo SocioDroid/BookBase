@@ -190,19 +190,18 @@ def checkPrice(titleRec):
             Sum += e
 
 
-        avg = Sum / len(bookPrice)
-        avgPrice = 'Suggested Price : '+ str(avg)
+        avg = round(Sum / len(bookPrice),2)
+
+        avgPrice = 'Suggested Price : ₹ '+ str(avg)
         minPrice = 'Minimum Price : '+ str( bookPrice[0])
         maxPrice = 'Maximum Price : '+str(bookPrice[-1])
-        # print(avgPrice)
-        # print(minPrice)
-        # print(maxPrice)
+
         #Make a list to return
         priceList = [avgPrice,minPrice,maxPrice]
         # Plot Graph
         plt.title(titleRec)
-        # plt.text(0.5, 2.5, minPrice)
-        # plt.text(0.5, 4.5, maxPrice)
+        plt.ylabel("Price of Books")
+        plt.xlabel("Number Of Books Available")
 
         plt.scatter(range(len(bookPrice)),bookPrice)
         plt.savefig(os.path.join(settings.BASE_DIR,'static/user/images/'+titleRec+'.png'))
@@ -410,11 +409,9 @@ def calcTrending(d):
 
         for i in np.unique(df['title']):
             trend = np.array(trends.loc[i])
-            # smoothed = smooth(trend, SMOOTHING_WINDOW_SIZE, SMOOTHING_WINDOW_FUNCTION)
             nsmoothed = standardize(trend)
             slopes = nsmoothed[1:] - nsmoothed[:-1]
-            # I blend in the previous slope as well, to stabalize things a bit and
-            # give a boost to things that have been trending for more than 1 day
+
             if len(slopes) > 1:
                 trend_snap[i] = slopes[-1] + slopes[-2] * 0.5
         return sorted(trend_snap.items(), key=operator.itemgetter(1), reverse=True)

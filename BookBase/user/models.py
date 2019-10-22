@@ -17,7 +17,7 @@ class Sell(models.Model):
     add_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=80, blank=False, null=False)
     author = models.CharField(max_length=50, blank=False, null=False)
-    description = models.CharField(max_length=150, blank=False, null=False)
+    description = models.CharField(max_length=500, blank=False, null=False)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=False )
     datetime = models.DateTimeField(default=datetime.datetime.now)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
