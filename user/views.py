@@ -355,8 +355,7 @@ def BuyView(request):
 
             #SENDING SMS--------------------------------------------------------------------------------------------------
             message = buyer_data.username + " is interested in buying " +prod_data.title+ " Contact Number :"+buyer_data_phone.phoneNo
-            resp = sendSMS('Yn2kY8xfT5I-OD8YRS2lC8mXslywI4KqsphMz7WzWo', '91'+seller_data.phoneNo,'TXTLCL', message)
-            print(resp)
+            # resp = sendSMS('Yn2kY8xfT5I-OD8YRS2lC8mXslywI4KqsphMz7WzWo', '91'+seller_data.phoneNo,'TXTLCL', message)            
 
             #ADDING DATA INTO NOTIFICATION TABLE
             notifyModel = Notify()

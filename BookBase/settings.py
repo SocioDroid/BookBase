@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from django.urls import reverse_lazy
@@ -27,7 +28,7 @@ SECRET_KEY = 'rc7_^*4h+))yp_n!o!b96^9+mwj2)im!55h_e65ayd(7fif(1h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.43.32']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -123,6 +124,8 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 STATICFILES_DIRS = [STATIC_DIR]
 
 MEDIA_URL = '/media/'
@@ -132,3 +135,4 @@ LOGOUT_REDIRECT_URL = 'login'
 
 LOGIN_REDIRECT_URL='dashboard'
 LOGIN_URL=reverse_lazy('login')
+django_heroku.settings(locals())

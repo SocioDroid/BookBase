@@ -1,0 +1,5 @@
+Django
+django-heroku
+matplotlib
+pandas
+gunicorn
