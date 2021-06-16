@@ -1,0 +1,5 @@
+{
+  "name": "BookBase",
+  "description": "A django E Commerce web app with feature such as buing and selling of second hand books",
+  "repository": "https://github.com/SocioDroid/BookBase",
+}
