@@ -12,8 +12,8 @@
   <a href="https://rubyonrails.org/">
     <img src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg"
          alt="GitHub last commit">
-    <a href="https://github.com/SocioDroid/BookBank/commits/master">
-    <img src="https://img.shields.io/github/last-commit/SocioDroid/BookBank.svg"
+    <a href="https://github.com/SocioDroid/BookBase/commits/master">
+    <img src="https://img.shields.io/github/last-commit/SocioDroid/BookBase.svg"
          alt="GitHub last commit"> <br>  
     <a href="https://dashboard.heroku.com/new?template=https%3A%2F%2Fgithub.com%2FSocioDroid%2FBookBase">
 	  <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
@@ -27,7 +27,7 @@
 <table>
 <tr>
 <td>
-The project, “BOOKBANK” is a Django-based application consisting of an elegant UI for users to register and login and facilitate themselves with the book buy and sell functionality. The application is e-commerce website to trade used books based on current trends.
+The project, “BOOKBASE” is a Django-based application consisting of an elegant UI for users to register and login and facilitate themselves with the book buy and sell functionality. The application is e-commerce website to trade used books based on current trends.
 </td>
 </tr>
 </table>
@@ -51,7 +51,7 @@ The project, “BOOKBANK” is a Django-based application consisting of an elega
 ### OR
 	  
 ##### Deploy on local machine:
-* **[Download](https://github.com/SocioDroid/BookBank/archive/main.zip)** the latest version of the repo or clone it using 
+* **[Download](https://github.com/SocioDroid/BookBase/archive/main.zip)** the latest version of the repo or clone it using 
 
 		git clone https://github.com/SocioDroid/leetcode-py-cli.git
     
