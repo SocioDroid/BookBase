@@ -4,7 +4,7 @@
 </h1>
 
 
-<h4 align="center">one line explanation</h4>
+<h4 align="center">Portral to the world of books exchange for a wide range.</h4>
 
 <h2 align="center"><a href = "https://boook-base.herokuapp.com/user/login/">Click here to view the deployed version</a></h4>
 
@@ -27,7 +27,7 @@
 <table>
 <tr>
 <td>
-The project, “BOOKBANK” is a Ruby on Rails application consisting of a basic UI for users to enter personal data, like and comment on other's post and follow friends. The entered data is then stored in a S3 bucket. The information stored in database is fetched and diplayed in an Instagram inspired format for users to be able to see the posts.
+The project, “BOOKBANK” is a Django-based application consisting of an elegant UI for users to register and login and facilitate themselves with the book buy and sell functionality. The application is e-commerce website to trade used books based on current trends.
 </td>
 </tr>
 </table>
