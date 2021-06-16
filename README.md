@@ -41,8 +41,16 @@ The project, “BOOKBANK” is a Django-based application consisting of an elega
 
 
 ## Installation ⚙️
-
-##### Downloading and installing steps:
+	  
+##### Deploy on heroku:
+	  
+<a href="https://dashboard.heroku.com/new?template=https%3A%2F%2Fgithub.com%2FSocioDroid%2FBookBase">
+  <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
+</a>
+	  
+### OR
+	  
+##### Deploy on local machine:
 * **[Download](https://github.com/SocioDroid/BookBank/archive/main.zip)** the latest version of the repo or clone it using 
 
 		git clone https://github.com/SocioDroid/leetcode-py-cli.git
