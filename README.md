@@ -35,7 +35,9 @@ The project, “BOOKBANK” is a Django-based application consisting of an elega
     
 ## Features ⚡️
  - Built with Django
- - 
+ - SMS integration [TEXTLOCAL]
+ - Trend Analysis for Price
+ - Uses Jinja template engine
 
 
 ## Installation ⚙️
