@@ -14,8 +14,12 @@
          alt="GitHub last commit">
     <a href="https://github.com/SocioDroid/BookBank/commits/master">
     <img src="https://img.shields.io/github/last-commit/SocioDroid/BookBank.svg"
-         alt="GitHub last commit">   
-      
+         alt="GitHub last commit"> <br>  
+    <a href="https://dashboard.heroku.com/new?template=https%3A%2F%2Fgithub.com%2FSocioDroid%2FBookBase">
+	  <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
+	</a>
+	    
+	    
 </p>
 
 ## About 💡
